@@ -48,6 +48,7 @@ export function renderAircraftSelect(state: Readonly<FmcState>): ProgramScreen {
 				{},
 				{
 					valueLeft: "<SETUP",
+					valueRight: "RELOAD>",
 				},
 			],
 		};
@@ -60,16 +61,16 @@ export function renderAircraftSelect(state: Readonly<FmcState>): ProgramScreen {
 
 			slots: [
 				{},
+				{},
 				{
+					valueLeft: "<RETRY",
 					valueCenter: "LOAD FAILED",
-				},
-				{
-					valueCenter: "<RETRY",
 				},
 				{},
 				{},
 				{
 					valueLeft: "<SETUP",
+					valueRight: "RELOAD>",
 				},
 			],
 		};
@@ -92,7 +93,7 @@ export function renderAircraftSelect(state: Readonly<FmcState>): ProgramScreen {
 		valueLeft: "<SETUP",
 		valueRight: state.setup.selectedAircraft
 			? `${state.setup.selectedAircraft.id}>`
-			: undefined,
+			: "RELOAD>",
 	});
 
 	return {
