@@ -1,0 +1,433 @@
+:root {
+	color-scheme: dark;
+	font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+	background: #111;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	overflow: hidden;
+}
+
+button {
+	font: inherit;
+}
+
+/* Entire application viewport */
+
+.fmc-stage {
+	width: 100vw;
+	height: 100vh;
+
+	display: grid;
+	place-items: center;
+
+	overflow: hidden;
+	background: #111;
+}
+
+.fmc-scale-container {
+	position: relative;
+}
+
+/* Fixed-size design surface.
+   The React scale logic should scale this entire unit. */
+
+.fmc-unit {
+	width: 620px;
+	height: 980px;
+
+	display: flex;
+	flex-direction: column;
+
+	padding: 18px;
+
+	border: 1px solid #504b42;
+	border-radius: 20px;
+
+	background: linear-gradient(145deg, #48443c, #302d27 48%, #24211d);
+
+	box-shadow:
+		0 24px 60px rgba(0, 0, 0, 0.65),
+		inset 0 1px 0 rgba(255, 255, 255, 0.12);
+
+	overflow: hidden;
+	transform-origin: top left;
+}
+
+/* Display and line-select keys */
+
+.fmc-unit__top {
+	height: 390px;
+
+	display: grid;
+	grid-template-columns: 46px minmax(0, 1fr) 46px;
+	gap: 9px;
+
+	flex: 0 0 auto;
+}
+
+.fmc-display {
+	height: 100%;
+	min-height: 0;
+
+	display: grid;
+	grid-template-rows: 34px minmax(0, 1fr) 31px;
+
+	padding: 12px 16px 9px;
+
+	border: 8px solid #171717;
+	border-radius: 11px;
+
+	background: #02090d;
+	color: #f4efcb;
+
+	font-family: "Courier New", ui-monospace, monospace;
+	letter-spacing: 0.035em;
+	text-shadow: none;
+}
+
+.fmc-display__title {
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	align-items: start;
+
+	font-size: 21px;
+}
+
+.fmc-display__title > :nth-child(2) {
+	text-align: center;
+}
+
+.fmc-display__title > :nth-child(3) {
+	text-align: right;
+}
+
+.fmc-display__slots {
+	min-height: 0;
+
+	display: grid;
+	grid-template-rows: repeat(6, minmax(0, 1fr));
+}
+
+.fmc-display__slot {
+	min-height: 0;
+
+	display: grid;
+	grid-template-rows: 17px minmax(0, 1fr);
+}
+
+.fmc-display__labels,
+.fmc-display__values {
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+}
+
+.fmc-display__labels {
+	font-size: 11px;
+}
+
+.fmc-display__values {
+	font-size: 18px;
+}
+
+.fmc-display__labels > :nth-child(2),
+.fmc-display__values > :nth-child(2) {
+	text-align: center;
+}
+
+.fmc-display__labels > :nth-child(3),
+.fmc-display__values > :nth-child(3) {
+	text-align: right;
+}
+
+.fmc-display__scratchpad {
+	padding-top: 4px;
+
+	border-top: 1px solid rgba(245, 240, 202, 0.45);
+
+	font-size: 18px;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+.fmc-lsk-column {
+	display: grid;
+	grid-template-rows: repeat(6, minmax(0, 1fr));
+
+	padding-top: 34px;
+	padding-bottom: 31px;
+}
+
+.fmc-key--lsk {
+	width: 44px;
+	height: 35px;
+
+	align-self: center;
+	justify-self: center;
+
+	padding: 0;
+	border-radius: 4px;
+}
+
+.fmc-lsk-mark {
+	font-size: 27px;
+	line-height: 1;
+}
+
+/* Shared button appearance */
+
+.fmc-key {
+	appearance: none;
+	-webkit-appearance: none;
+
+	min-width: 0;
+	min-height: 0;
+
+	padding: 0;
+
+	border: 1px solid #080808;
+	border-radius: 4px;
+
+	color: #e2e0da;
+	background: #050505;
+
+	box-shadow:
+		0 2px 0 #000,
+		inset 0 1px 0 rgba(255, 255, 255, 0.08);
+
+	cursor: pointer;
+	user-select: none;
+	touch-action: manipulation;
+}
+
+.fmc-key:hover {
+	filter: brightness(1.15);
+}
+
+.fmc-key:active {
+	transform: translateY(2px);
+
+	box-shadow:
+		0 0 0 #000,
+		inset 0 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+.fmc-key:focus-visible {
+	outline: 2px solid #77d9ff;
+	outline-offset: 3px;
+}
+
+.fmc-key span {
+	display: block;
+	line-height: 0.95;
+}
+
+/*
+ * Controls
+ *
+ * Shared eight-row system:
+ *
+ * 1-2: upper function keys
+ * 3-4: left function keys + first two alpha rows
+ * 5-8: numbers + remaining alpha rows
+ */
+.fmc-controls-layout {
+	--control-row-height: 47px;
+	--control-row-gap: 16px;
+	--control-column-gap: 17px;
+
+	position: relative;
+
+	display: grid;
+	grid-template-columns: 178px minmax(0, 1fr);
+	grid-template-rows: repeat(8, var(--control-row-height));
+
+	column-gap: var(--control-column-gap);
+	row-gap: var(--control-row-gap);
+
+	margin-top: 16px;
+}
+
+.fmc-function-panel {
+	position: relative;
+	z-index: 0;
+
+	background:
+		linear-gradient(145deg, rgba(255, 255, 255, 0.05), rgba(0, 0, 0, 0.14)),
+		repeating-linear-gradient(
+			0deg,
+			rgba(255, 255, 255, 0.01) 0,
+			rgba(255, 255, 255, 0.01) 1px,
+			rgba(0, 0, 0, 0.014) 1px,
+			rgba(0, 0, 0, 0.014) 3px
+		);
+
+	box-shadow:
+		inset 0 1px 0 rgba(255, 255, 255, 0.11),
+		inset 0 -2px 5px rgba(0, 0, 0, 0.42),
+		0 3px 6px rgba(0, 0, 0, 0.24);
+
+	pointer-events: none;
+}
+
+.fmc-function-panel--upper {
+	grid-column: 1 / 3;
+	grid-row: 1 / 3;
+	border-radius: 8px 8px 8px 0;
+	z-index: 4;
+
+	margin: -6px;
+}
+
+.fmc-function-panel--lower-left {
+	grid-column: 1;
+	grid-row: 3 / 5;
+	border-radius: 0px 0px 8px 8px;
+	z-index: 3;
+
+	margin: -6px -18px -8px -6px;
+}
+
+/* Function rows 1 and 2 */
+
+.fmc-function-grid {
+	grid-column: 1 / 3;
+	grid-row: 1 / 5;
+
+	display: grid;
+	grid-template-columns: repeat(6, minmax(0, 1fr));
+	grid-template-rows: repeat(4, var(--control-row-height));
+
+	column-gap: 10px;
+	row-gap: var(--control-row-gap);
+}
+.fmc-key--function {
+	position: relative;
+	z-index: 2;
+
+	width: 100%;
+	height: 100%;
+
+	padding: 3px;
+
+	font-size: 11px;
+	font-weight: 700;
+	line-height: 0.95;
+
+	background: linear-gradient(to bottom, #151515 0%, #090909 58%, #020202 100%);
+
+	box-shadow:
+		0 3px 0 #000,
+		0 4px 7px rgba(0, 0, 0, 0.35),
+		inset 0 1px 0 rgba(255, 255, 255, 0.13);
+}
+
+/* MENU / NAV RAD and PREV / NEXT */
+
+.fmc-left-function-grid {
+	grid-column: 1;
+	grid-row: 3 / 5;
+
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	grid-template-rows: repeat(2, var(--control-row-height));
+
+	gap: var(--control-row-gap) 10px;
+}
+
+/* Number pad occupies shared rows 5-8 */
+
+.fmc-number-pad {
+	grid-column: 1;
+	grid-row: 5 / 9;
+
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	grid-template-rows: repeat(4, var(--control-row-height));
+
+	column-gap: 10px;
+	row-gap: var(--control-row-gap);
+	justify-items: center;
+	align-items: center;
+}
+
+/* Circular numeric buttons */
+
+.fmc-key--number {
+	width: var(--control-row-height);
+	height: var(--control-row-height);
+
+	aspect-ratio: 1;
+	border-radius: 50%;
+
+	font-size: 20px;
+}
+
+/* Alpha pad occupies shared rows 3-8 */
+
+.fmc-alpha-pad {
+	grid-column: 2;
+	grid-row: 3 / 9;
+
+	display: grid;
+	grid-template-columns: repeat(5, minmax(0, 1fr));
+	grid-template-rows: repeat(6, var(--control-row-height));
+
+	column-gap: 8px;
+	row-gap: var(--control-row-gap);
+	padding-left: 30px;
+}
+
+/* Square alpha buttons */
+
+.fmc-key--alpha {
+	width: var(--control-row-height);
+	height: var(--control-row-height);
+
+	aspect-ratio: 1;
+
+	justify-self: center;
+	align-self: center;
+
+	border-radius: 4px;
+
+	font-size: 16px;
+	font-weight: 650;
+}
+
+.fmc-key--exec-lit {
+	color: #fff;
+
+	background: linear-gradient(180deg, #9aa53c, #4f5a1c 55%, #2f3610);
+
+	box-shadow:
+		0 2px 0 #090909,
+		0 0 15px rgba(217, 255, 74, 0.55),
+		inset 0 1px 0 rgba(255, 255, 255, 0.28);
+}
+
+.fmc-help {
+	margin-top: 14px;
+
+	color: #b6b2a8;
+
+	font-size: 12px;
+	text-align: center;
+}
+
+/* Hide help when vertical space is limited */
+
+@media (max-height: 850px) {
+	.fmc-help {
+		display: none;
+	}
+}
