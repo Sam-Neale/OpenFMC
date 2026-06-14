@@ -1,11 +1,3 @@
-export type FmcPageId =
-	| "PERF_INIT"
-	| "RTE"
-	| "LEGS"
-	| "DEP_ARR"
-	| "PROG"
-	| "MENU";
-
 export type FmcTextColor = "white" | "green" | "cyan" | "amber" | "magenta";
 export type FmcTextSize = "small" | "large";
 
@@ -42,6 +34,9 @@ export interface FmcState {
 	message: string | null;
 	execPending: boolean;
 
+	setup: SetupProgramState;
+	aircraftSelect: AircraftSelectState;
+
 	route: {
 		origin: string;
 		destination: string;
@@ -49,7 +44,7 @@ export interface FmcState {
 	};
 }
 
-export type FmcProgramId = "PERF_INIT";
+export type FmcProgramId = "SETUP" | "AIRCRAFT_SELECT";
 
 export type FmcKey =
 	| "INIT_REF"
@@ -136,4 +131,46 @@ export interface FmcState {
 	execPending: boolean;
 
 	route: RouteState;
+}
+
+export type ConnectApiStatus =
+	| "DISCONNECTED"
+	| "CONNECTING"
+	| "CONNECTED"
+	| "ERROR";
+
+export type NavigationDatabaseStatus =
+	| "INTACT"
+	| "MISSING"
+	| "INVALID_CYCLE"
+	| "MISSING_DATABASE"
+	| "CORRUPT"
+	| "ERROR";
+
+export interface NavigationDatabaseInfo {
+	cycle: string | null;
+	revision: string | null;
+	name: string | null;
+	status: NavigationDatabaseStatus;
+	error?: string;
+}
+
+export interface AircraftDefinition {
+	id: string;
+	name: string;
+}
+
+export interface AircraftSelectState {
+	aircraft: AircraftDefinition[];
+	status: "IDLE" | "LOADING" | "READY" | "ERROR";
+	error: string | null;
+}
+
+export interface SetupProgramState {
+	connectApiStatus: ConnectApiStatus;
+	connectApiError: string | null;
+
+	navigationDatabase: NavigationDatabaseInfo | null;
+
+	selectedAircraft: AircraftDefinition | null;
 }

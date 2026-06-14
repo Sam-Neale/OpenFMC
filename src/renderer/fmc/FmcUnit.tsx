@@ -125,7 +125,9 @@ export function FmcUnit() {
 								<FmcButton
 									key={number}
 									fmcKey={`LSK_L${number}` as FmcKey}
-									onPress={pressFmcKey}
+									onPress={(key) => {
+										void pressFmcKey(key);
+									}}
 									className="fmc-key--lsk"
 									title={`Left line select key ${number}`}
 								>
@@ -141,7 +143,9 @@ export function FmcUnit() {
 								<FmcButton
 									key={number}
 									fmcKey={`LSK_R${number}` as FmcKey}
-									onPress={pressFmcKey}
+									onPress={(key) => {
+										void pressFmcKey(key);
+									}}
 									className="fmc-key--lsk"
 									title={`Right line select key ${number}`}
 								>
@@ -159,7 +163,9 @@ export function FmcUnit() {
 								<FmcButton
 									key={key}
 									fmcKey={key}
-									onPress={pressFmcKey}
+									onPress={(key) => {
+										void pressFmcKey(key);
+									}}
 									className={[
 										"fmc-key--function",
 										key === "EXEC" && screen.execLight
@@ -183,7 +189,9 @@ export function FmcUnit() {
 								<FmcButton
 									key={key}
 									fmcKey={key}
-									onPress={pressFmcKey}
+									onPress={(key) => {
+										void pressFmcKey(key);
+									}}
 									className="fmc-key--number"
 								>
 									{label}
@@ -199,7 +207,9 @@ export function FmcUnit() {
 									<FmcButton
 										key={letter}
 										fmcKey={letter}
-										onPress={pressFmcKey}
+										onPress={(key) => {
+											void pressFmcKey(key);
+										}}
 										className={[
 											"fmc-key--alpha",
 											isCompassKey ? "fmc-key--compass" : "",
@@ -212,7 +222,9 @@ export function FmcUnit() {
 
 							<FmcButton
 								fmcKey="SP"
-								onPress={pressFmcKey}
+								onPress={(key) => {
+									void pressFmcKey(key);
+								}}
 								className="fmc-key--alpha"
 							>
 								SP
@@ -220,7 +232,9 @@ export function FmcUnit() {
 
 							<FmcButton
 								fmcKey="DEL"
-								onPress={pressFmcKey}
+								onPress={(key) => {
+									void pressFmcKey(key);
+								}}
 								className="fmc-key--alpha"
 							>
 								DEL
@@ -228,7 +242,9 @@ export function FmcUnit() {
 
 							<FmcButton
 								fmcKey="SLASH"
-								onPress={pressFmcKey}
+								onPress={(key) => {
+									void pressFmcKey(key);
+								}}
 								className="fmc-key--alpha"
 							>
 								/
@@ -236,7 +252,9 @@ export function FmcUnit() {
 
 							<FmcButton
 								fmcKey="CLR"
-								onPress={pressFmcKey}
+								onPress={(key) => {
+									void pressFmcKey(key);
+								}}
 								className="fmc-key--alpha"
 							>
 								CLR

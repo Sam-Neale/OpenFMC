@@ -1,5 +1,9 @@
 import type { FmcKey, FmcProgramId, FmcScreenModel, FmcState } from "../types";
 
+import { connectApiService } from "../../services/connect-api";
+import { navigationDatabaseService } from "../../services/navigation-database";
+import { aircraftService } from "../../services/aircraft";
+
 import type { FmcProgramContext } from "./context";
 
 import { getProgram } from "./registry";
@@ -7,12 +11,25 @@ import { getProgram } from "./registry";
 export type FmcListener = (state: Readonly<FmcState>) => void;
 
 const initialState: FmcState = {
-	activeProgram: "PERF_INIT",
+	activeProgram: "SETUP",
 	pageIndex: 0,
 
 	scratchpad: "",
 	message: null,
 	execPending: false,
+
+	setup: {
+		connectApiStatus: "DISCONNECTED",
+		connectApiError: null,
+		navigationDatabase: null,
+		selectedAircraft: null,
+	},
+
+	aircraftSelect: {
+		aircraft: [],
+		status: "IDLE",
+		error: null,
+	},
 
 	route: {
 		origin: "YMML",
@@ -102,6 +119,12 @@ const context: FmcProgramContext = {
 	showMessage,
 
 	setExecPending,
+
+	services: {
+		connectApi: connectApiService,
+		navigationDatabase: navigationDatabaseService,
+		aircraft: aircraftService,
+	},
 };
 
 function setProgram(programId: FmcProgramId): void {
@@ -150,7 +173,7 @@ function processExec(): void {
 
 function processGlobalNavigation(key: FmcKey): boolean {
 	const destinations: Partial<Record<FmcKey, FmcProgramId>> = {
-		INIT_REF: "PERF_INIT",
+		INIT_REF: "SETUP",
 		/*RTE: "RTE",
 		LEGS: "LEGS",
 		DEP_ARR: "DEP_ARR",
@@ -205,11 +228,17 @@ function processSharedKey(key: FmcKey): boolean {
 			});
 			return true;
 
-		case "NEXT_PAGE":
+		case "NEXT_PAGE": {
+			const program = getProgram(state.activeProgram);
+
+			const pageCount = program.getPageCount?.(state) ?? 1;
+
 			updateState({
-				pageIndex: state.pageIndex + 1,
+				pageIndex: Math.min(pageCount - 1, state.pageIndex + 1),
 			});
+
 			return true;
+		}
 
 		case "EXEC":
 			processExec();
@@ -233,14 +262,16 @@ export function subscribeFmc(listener: FmcListener): () => void {
 	};
 }
 
-export function pressFmcKey(key: FmcKey): void {
+export async function pressFmcKey(key: FmcKey): Promise<void> {
 	if (processGlobalNavigation(key)) {
 		return;
 	}
 
 	const activeProgram = getProgram(state.activeProgram);
 
-	if (activeProgram.handleKey?.(key, context)) {
+	const handledByProgram = await activeProgram.handleKey?.(key, context);
+
+	if (handledByProgram) {
 		return;
 	}
 

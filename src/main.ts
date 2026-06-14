@@ -1,10 +1,31 @@
-import { app, BrowserWindow } from "electron";
-import path from "node:path";
 import started from "electron-squirrel-startup";
+import { app, BrowserWindow, ipcMain } from "electron";
+import { mkdir } from "node:fs/promises";
+import path from "node:path";
+
+import {
+	getNavigationDataDirectory,
+	inspectNavigationDatabase,
+} from "./main/navigation-database";
+import { getSimBriefAircraft } from "./main/simbrief-aircraft";
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (started) {
 	app.quit();
+}
+
+function registerNavigationDatabaseIpc(): void {
+	ipcMain.handle("navdata:inspect", async () => inspectNavigationDatabase());
+}
+
+function registerAircraftIpc(): void {
+	ipcMain.handle("aircraft:list", async () => {
+		return getSimBriefAircraft(false);
+	});
+
+	ipcMain.handle("aircraft:refresh", async () => {
+		return getSimBriefAircraft(true);
+	});
 }
 
 const createWindow = () => {
@@ -39,7 +60,27 @@ const createWindow = () => {
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.on("ready", createWindow);
+export async function ensureNavDataDirectory(): Promise<string> {
+	const navDataPath = path.join(app.getPath("home"), "openFMC-navdata");
+	await mkdir(navDataPath, {
+		recursive: true,
+	});
+	return navDataPath;
+}
+
+app.whenReady().then(async () => {
+	await mkdir(getNavigationDataDirectory(), { recursive: true });
+
+	registerNavigationDatabaseIpc();
+	registerAircraftIpc();
+	createWindow();
+
+	app.on("activate", () => {
+		if (BrowserWindow.getAllWindows().length === 0) {
+			createWindow();
+		}
+	});
+});
 
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits

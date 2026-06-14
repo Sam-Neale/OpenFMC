@@ -147,6 +147,10 @@ button {
 	font-size: 18px;
 }
 
+.fmc-display__values > span {
+	white-space: nowrap;
+}
+
 .fmc-display__labels > :nth-child(2),
 .fmc-display__values > :nth-child(2) {
 	text-align: center;
