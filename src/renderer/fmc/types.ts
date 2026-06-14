@@ -6,6 +6,51 @@ export type FmcPageId =
 	| "PROG"
 	| "MENU";
 
+export type FmcTextColor = "white" | "green" | "cyan" | "amber" | "magenta";
+export type FmcTextSize = "small" | "large";
+
+export interface FmcLine {
+	left?: string;
+	center?: string;
+	right?: string;
+	color?: FmcTextColor;
+	size?: FmcTextSize;
+}
+
+export interface FmcScreenSlot {
+	labelLeft?: string;
+	labelCenter?: string;
+	labelRight?: string;
+
+	valueLeft?: string;
+	valueCenter?: string;
+	valueRight?: string;
+}
+
+export interface FmcScreenModel {
+	title: string;
+	page?: string;
+	slots: FmcScreenSlot[];
+	scratchpad: string;
+	execLight: boolean;
+}
+
+export interface FmcState {
+	activeProgram: FmcProgramId;
+	pageIndex: number;
+	scratchpad: string;
+	message: string | null;
+	execPending: boolean;
+
+	route: {
+		origin: string;
+		destination: string;
+		flightNumber: string;
+	};
+}
+
+export type FmcProgramId = "PERF_INIT";
+
 export type FmcKey =
 	| "INIT_REF"
 	| "RTE"
@@ -58,17 +103,6 @@ export type FmcKey =
 	| "Y"
 	| "Z";
 
-export type FmcTextColor = "white" | "green" | "cyan" | "amber" | "magenta";
-export type FmcTextSize = "small" | "large";
-
-export interface FmcLine {
-	left?: string;
-	center?: string;
-	right?: string;
-	color?: FmcTextColor;
-	size?: FmcTextSize;
-}
-
 export interface FmcScreenSlot {
 	labelLeft?: string;
 	labelCenter?: string;
@@ -87,15 +121,19 @@ export interface FmcScreenModel {
 	execLight: boolean;
 }
 
+export interface RouteState {
+	origin: string;
+	destination: string;
+	flightNumber: string;
+}
+
 export interface FmcState {
-	activePage: FmcPageId;
+	activeProgram: FmcProgramId;
 	pageIndex: number;
+
 	scratchpad: string;
 	message: string | null;
 	execPending: boolean;
-	route: {
-		origin: string;
-		destination: string;
-		flightNumber: string;
-	};
+
+	route: RouteState;
 }

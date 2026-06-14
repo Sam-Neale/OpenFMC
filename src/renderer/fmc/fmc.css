@@ -117,25 +117,33 @@ button {
 	display: grid;
 	grid-template-rows: repeat(6, minmax(0, 1fr));
 }
-
 .fmc-display__slot {
+	display: flex;
+	flex-direction: column;
 	min-height: 0;
-
-	display: grid;
-	grid-template-rows: 17px minmax(0, 1fr);
-}
-
-.fmc-display__labels,
-.fmc-display__values {
-	display: grid;
-	grid-template-columns: 1fr 1fr 1fr;
 }
 
 .fmc-display__labels {
+	height: 17px;
+	flex: 0 0 17px;
+
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+
 	font-size: 11px;
 }
 
+.fmc-display__label-gap {
+	height: 12px;
+	flex: 0 0 12px;
+}
+
 .fmc-display__values {
+	flex: 1;
+
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+
 	font-size: 18px;
 }
 
@@ -161,7 +169,10 @@ button {
 
 .fmc-lsk-column {
 	display: grid;
-	grid-template-rows: repeat(6, minmax(0, 1fr));
+	grid-template-rows: repeat(6, 35px);
+	row-gap: 12px;
+
+	align-content: center;
 
 	padding-top: 34px;
 	padding-bottom: 31px;
@@ -169,7 +180,7 @@ button {
 
 .fmc-key--lsk {
 	width: 44px;
-	height: 35px;
+	height: 25px;
 
 	align-self: center;
 	justify-self: center;
@@ -179,7 +190,7 @@ button {
 }
 
 .fmc-lsk-mark {
-	font-size: 27px;
+	font-size: 20px;
 	line-height: 1;
 }
 

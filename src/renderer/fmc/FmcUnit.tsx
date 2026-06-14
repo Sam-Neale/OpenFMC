@@ -7,7 +7,7 @@ import {
 	pressFmcKey,
 	renderFmcScreen,
 	subscribeFmc,
-} from "./engine";
+} from "./engine/engine";
 import { keyboardEventToFmcKey } from "./keyboard";
 import type { FmcKey, FmcState } from "./types";
 import "./fmc.css";

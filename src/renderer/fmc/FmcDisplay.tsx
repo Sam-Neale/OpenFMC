@@ -17,21 +17,31 @@ export function FmcDisplay({ screen }: FmcDisplayProps) {
 			</header>
 
 			<div className="fmc-display__slots">
-				{screen.slots.map((slot, index) => (
-					<div className="fmc-display__slot" key={index}>
-						<div className="fmc-display__labels">
-							<span>{slot.labelLeft}</span>
-							<span>{slot.labelCenter}</span>
-							<span>{slot.labelRight}</span>
-						</div>
+				{screen.slots.map((slot, index) => {
+					const hasLabels = Boolean(
+						slot.labelLeft || slot.labelCenter || slot.labelRight,
+					);
 
-						<div className="fmc-display__values">
-							<span>{slot.valueLeft}</span>
-							<span>{slot.valueCenter}</span>
-							<span>{slot.valueRight}</span>
+					return (
+						<div className="fmc-display__slot" key={index}>
+							{hasLabels ? (
+								<div className="fmc-display__labels">
+									<span>{slot.labelLeft}</span>
+									<span>{slot.labelCenter}</span>
+									<span>{slot.labelRight}</span>
+								</div>
+							) : (
+								<div className="fmc-display__label-gap" aria-hidden="true" />
+							)}
+
+							<div className="fmc-display__values">
+								<span>{slot.valueLeft}</span>
+								<span>{slot.valueCenter}</span>
+								<span>{slot.valueRight}</span>
+							</div>
 						</div>
-					</div>
-				))}
+					);
+				})}
 			</div>
 
 			<div className="fmc-display__scratchpad">
