@@ -257,6 +257,21 @@ button {
 	margin-top: 16px;
 }
 
+.fmc-key--compass > span {
+	width: 1.55em;
+	height: 1.55em;
+
+	display: inline-grid;
+	place-items: center;
+
+	margin: 0 auto;
+
+	border: 1.5px solid currentColor;
+	border-radius: 50%;
+
+	line-height: 1;
+}
+
 .fmc-function-panel {
 	position: relative;
 	z-index: 0;

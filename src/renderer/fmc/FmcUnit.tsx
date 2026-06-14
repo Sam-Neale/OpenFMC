@@ -192,16 +192,23 @@ export function FmcUnit() {
 						</div>
 
 						<div className="fmc-alpha-pad">
-							{letters.map((letter) => (
-								<FmcButton
-									key={letter}
-									fmcKey={letter}
-									onPress={pressFmcKey}
-									className="fmc-key--alpha"
-								>
-									{letter}
-								</FmcButton>
-							))}
+							{letters.map((letter) => {
+								const isCompassKey = ["N", "S", "E", "W"].includes(letter);
+
+								return (
+									<FmcButton
+										key={letter}
+										fmcKey={letter}
+										onPress={pressFmcKey}
+										className={[
+											"fmc-key--alpha",
+											isCompassKey ? "fmc-key--compass" : "",
+										].join(" ")}
+									>
+										<span>{letter}</span>
+									</FmcButton>
+								);
+							})}
 
 							<FmcButton
 								fmcKey="SP"
