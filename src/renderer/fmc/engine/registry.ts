@@ -1,11 +1,27 @@
 import type { FmcProgramId } from "../types";
 import type { FmcProgram } from "./context";
 
-import { setupProgram } from "../programs/setup";
+import { menuProgram } from "../programs/menu";
+import { ifConnectProgram } from "../programs/if-connect";
+import { identProgram } from "../programs/ident";
+import { navDataProgram } from "../programs/nav-data";
+import { perfInitProgram } from "../programs/perf-init";
+import { routeProgram } from "../programs/route";
+import { legsProgram } from "../programs/legs";
+import { holdProgram } from "../programs/hold";
+import { depArrProgram } from "../programs/dep-arr";
 import { aircraftSelectProgram } from "../programs/aircraft-select";
 
 export const programs: Record<FmcProgramId, FmcProgram> = {
-	SETUP: setupProgram,
+	MENU: menuProgram,
+	IF_CONNECT: ifConnectProgram,
+	IDENT: identProgram,
+	NAV_DATA: navDataProgram,
+	PERF_INIT: perfInitProgram,
+	RTE: routeProgram,
+	LEGS: legsProgram,
+	HOLD: holdProgram,
+	DEP_ARR: depArrProgram,
 	AIRCRAFT_SELECT: aircraftSelectProgram,
 };
 

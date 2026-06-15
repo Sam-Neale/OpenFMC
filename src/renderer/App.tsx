@@ -1,5 +1,10 @@
 import { FmcUnit } from "./fmc/FmcUnit";
+import { AutopilotPanel } from "./AutopilotPanel";
 
 export default function App() {
-  return <FmcUnit />;
+	if (window.location.hash === "#/autopilot") {
+		return <AutopilotPanel />;
+	}
+
+	return <FmcUnit />;
 }

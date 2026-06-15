@@ -1,18 +1,27 @@
+import type { ConnectionManifest, StateValue } from "ifc-node";
+
 export const connectApiService = {
-	async connect(): Promise<void> {
+	async connect(): Promise<ConnectionManifest> {
 		console.log("Connecting to Infinite Flight ConnectAPI...");
 
-		// Replace this with your actual ConnectAPI connection.
-		await new Promise<void>((resolve) => {
-			window.setTimeout(resolve, 750);
-		});
+		return window.openFmc.connectApi.connect();
 	},
 
 	async disconnect(): Promise<void> {
 		console.log("Disconnecting from Infinite Flight ConnectAPI...");
 
-		await new Promise<void>((resolve) => {
-			window.setTimeout(resolve, 250);
-		});
+		await window.openFmc.connectApi.disconnect();
+	},
+
+	async get(pathName: string): Promise<StateValue | null> {
+		return window.openFmc.connectApi.get(pathName);
+	},
+
+	async set(pathName: string, value: StateValue): Promise<void> {
+		await window.openFmc.connectApi.set(pathName, value);
+	},
+
+	async command(commandName: string): Promise<void> {
+		await window.openFmc.connectApi.command(commandName);
 	},
 };

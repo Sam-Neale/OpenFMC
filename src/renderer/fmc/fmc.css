@@ -111,6 +111,10 @@ button {
 	text-align: right;
 }
 
+.fmc-display__title--route > strong {
+	color: #4ec6ff;
+}
+
 .fmc-display__slots {
 	min-height: 0;
 
@@ -121,6 +125,68 @@ button {
 	display: flex;
 	flex-direction: column;
 	min-height: 0;
+}
+
+.fmc-display__slot--disabled {
+	color: #6f7775;
+}
+
+.fmc-display__value--disabled {
+	color: #6f7775;
+}
+
+.fmc-display__value--cyan {
+	color: #4ec6ff;
+}
+
+.fmc-display__value--magenta {
+	color: #d56bff;
+}
+
+.fmc-display__value--amber {
+	color: #f1b44c;
+}
+
+.fmc-display__value--green {
+	color: #62d26f;
+}
+
+.fmc-display__value--small {
+	align-self: start;
+	font-size: 13px;
+}
+
+.fmc-display__value--boxed {
+	display: inline-flex;
+	width: fit-content;
+	min-width: 4.25ch;
+	height: 1.15em;
+	align-items: center;
+	justify-content: center;
+	padding: 0 0.15ch;
+
+	background:
+		repeating-linear-gradient(
+			to right,
+			#f4efcb 0,
+			#f4efcb 0.78ch,
+			#02090d 0.78ch,
+			#02090d 0.98ch
+		);
+	color: transparent;
+	text-shadow: none;
+}
+
+.fmc-display__values > :nth-child(1).fmc-display__value--boxed {
+	justify-self: start;
+}
+
+.fmc-display__values > :nth-child(2).fmc-display__value--boxed {
+	justify-self: center;
+}
+
+.fmc-display__values > :nth-child(3).fmc-display__value--boxed {
+	justify-self: end;
 }
 
 .fmc-display__labels {
